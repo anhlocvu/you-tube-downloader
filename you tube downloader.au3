@@ -8,18 +8,18 @@ EndIf
 RunWait(@ComSpec & " /c yt-dlp -U",@ScriptDir,@SW_SHOW)
 $mainform=GUICreate("you tube downloader, version "&$version, 400, 400)
 GUISetBkColor($COLOR_BLUE)
-GUICtrlCreateLabel("Enter the URL link of the video you want to download here", 10, 10, 380, 40)
+GUICtrlCreateLabel("&Enter the URL link of the video you want to download here:", 10, 10, 380, 40)
 $edit=GUICtrlCreateInput("", 10, 40, 380, 20)
 $clip=ClipGet()
 
 if StringInStr($clip, "youtube.com") Then
 GUICtrlSetData($edit, $clip)
 EndIf
-$paste=GUICtrlCreateButton("paste link", 320, 80, 70, 20)
+$paste=GUICtrlCreateButton("&paste URL", 320, 80, 70, 20)
 $dl_video=GUICtrlCreateButton("download &video", 150, 120, 150, 20)
 $dl_mp3=GUICtrlCreateButton("download with &mp3 format", 150, 160, 150, 20)
 $dl_wav=GUICtrlCreateButton("download with &wav format", 150, 200, 150, 20)
-$openbtn=GUICtrlCreateButton("Open the download folder", 150, 240, 150, 20)
+$openbtn=GUICtrlCreateButton("&Open the download folder", 150, 240, 150, 20)
 $menu=GUICtrlCreateMenu("help")
 $menu1=GUICtrlCreateMenuItem("About and readme", $menu)
 $menu2=GUICtrlCreateMenuItem("exit", $menu)
