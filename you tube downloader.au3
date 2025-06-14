@@ -1,11 +1,24 @@
+#Region ;**** Directives created by AutoIt3Wrapper_GUI ****
+#AutoIt3Wrapper_Res_Comment=youtube downloader
+#AutoIt3Wrapper_Res_Description=đây là phần mềm tải audio video từ youtube được phát triển bởi anh lộc
+#AutoIt3Wrapper_Res_Fileversion=3.0
+#AutoIt3Wrapper_Res_ProductName=youtube downloader
+#AutoIt3Wrapper_Res_ProductVersion=3.0
+#AutoIt3Wrapper_Res_CompanyName=technology entertainment studio
+#AutoIt3Wrapper_Res_LegalCopyright=anhloc
+#AutoIt3Wrapper_Res_LegalTradeMarks=anhloc
+#AutoIt3Wrapper_Res_Language=1033
+#AutoIt3Wrapper_Res_requestedExecutionLevel=None
+#EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 #include <GUIConstants.au3>
 #include <ColorConstants.au3>
-$version="1.0"
+$version="3.0"
 
 if Not FileExists("download") Then
 DirCreate("download")
 EndIf
 RunWait(@ComSpec & " /c yt-dlp -U",@ScriptDir,@SW_SHOW)
+SoundPlay(@ScriptDir&"\data\sounds\start.mp3")
 $mainform=GUICreate("you tube downloader, version "&$version, 400, 400)
 GUISetBkColor($COLOR_BLUE)
 GUICtrlCreateLabel("&Enter the URL link of the video you want to download here:", 10, 10, 380, 40)
@@ -15,7 +28,7 @@ $clip=ClipGet()
 if StringInStr($clip, "youtube.com") Then
 GUICtrlSetData($edit, $clip)
 EndIf
-$paste=GUICtrlCreateButton("&paste URL", 320, 80, 70, 20)
+$paste=GUICtrlCreateButton("&paste link", 320, 80, 70, 20)
 $dl_video=GUICtrlCreateButton("download &video", 150, 120, 150, 20)
 $dl_mp3=GUICtrlCreateButton("download with &mp3 format", 150, 160, 150, 20)
 $dl_wav=GUICtrlCreateButton("download with &wav format", 150, 200, 150, 20)
@@ -30,6 +43,7 @@ while 1
 $msg=GUIGetMsg()
 Switch $msg
 	Case $GUI_EVENT_CLOSE, $menu2
+SoundPlay("data/sounds/exit.mp3", 1)
 Exit
 Case $dl_video
 $url=GUICtrlRead($edit)
@@ -73,7 +87,7 @@ Func dlmp3($link)
 GUISetState(@SW_HIDE, $mainform)
 Global $cmd=' /c yt-dlp -P "./download/mp3" --ffmpeg-location "lib/ffmpeg.exe" -x --audio-format mp3 '
 RunWait(@ComSpec & $cmd & $link, @ScriptDir, @SW_SHOW)
-MsgBox(64, "Notice", "you downloaded the mp3 to complete")
+MsgBox(64, "Notice", "You have downloaded mp3 successfully")
 GUISetState(@SW_SHOW, $mainform)
 
 
@@ -83,7 +97,7 @@ Func dlvideo($link)
 	GUISetState(@SW_HIDE, $mainform)
 Global $cmd=' /c yt-dlp -P "./download/video" '
 RunWait(@ComSpec & $cmd & $link, @ScriptDir, @SW_SHOW)
-MsgBox(64, "Notice", "you downloaded the video to complete")
+MsgBox(64, "Notice", "You have downloaded the video successfully")
 GUISetState(@SW_SHOW, $mainform)
 EndFunc
 
@@ -91,7 +105,7 @@ Func dlwav($link)
 GUISetState(@SW_HIDE, $mainform)
 Global $cmd=' /c yt-dlp -P "./download/wav" --ffmpeg-location "lib/ffmpeg.exe" -x --audio-format wav '
 RunWait(@ComSpec & $cmd & $link, @ScriptDir, @SW_SHOW)
-MsgBox(64, "Notice", "you downloaded the wav to complete")
+MsgBox(64, "Notice", "You have successfully downloaded WAV")
 GUISetState(@SW_SHOW, $mainform)
 
 
@@ -108,7 +122,7 @@ $atxt=GUICtrlCreateEdit($abouttext, 10, 40, 380, 250, BitOR($ES_READONLY, $WS_TA
 
 
 GUICtrlCreateTabItem("read me")
-$readmebox=GUICtrlCreateEdit("There is no guide for this application, we will update the instructions in the future", 10, 40, 380, 250)
+$readmebox=GUICtrlCreateEdit(FileRead(@ScriptDir &"\\data\dock\readme.txt"), 10, 40, 380, 250)
 
 GUICtrlCreateTabItem("contact")
 $fb=GUICtrlCreateButton("face book", 10, 40, 180, 20)
